@@ -11,24 +11,23 @@ import javax.persistence.*;
  * Entity implementation class for Entity: ACorseGrainedObject
  *
  */
-@Entity
-@LocalBean
-public abstract class ACoarseGrainedObject<T> implements Serializable, ICoarseGrainedObject<T>,EntityBean { 
+
+public abstract class ACoarseGrainedObject<T> implements Serializable, ICoarseGrainedObject<T>, EntityBean {
 
 	private static final long serialVersionUID = 1L;
 
 	@EJB
-	protected ACoarseDAO<T> aCoarseDAO; 
+	protected ACoarseDAO<T> aCoarseDAO;
 
 	public ACoarseGrainedObject() {
 		super();
 	}
 
-	public ACoarseDAO<T> getACoarseDAO() { 
+	public ACoarseDAO<T> getACoarseDAO() {
 		return aCoarseDAO;
 	}
 
-	public void setaCoarseDAO(ACoarseDAO<T> aCoarseDAO) { 
+	public void setaCoarseDAO(ACoarseDAO<T> aCoarseDAO) {
 		this.aCoarseDAO = aCoarseDAO;
 	}
 

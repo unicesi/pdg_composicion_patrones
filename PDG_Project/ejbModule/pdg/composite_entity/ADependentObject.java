@@ -14,7 +14,6 @@ import java.util.*;
  * Entity implementation class for Entity: ADependentObject EJB Local Entity que
  * representa a un DependentObject en Composite Entity
  */
-@Entity
 public abstract class ADependentObject  implements Serializable {
 
 	private static final long serialVersionUID = 1L;
