@@ -35,7 +35,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 import pdg.composite_entity.ADependentObject;
-import pdg.patrones.seguridad.compositentity.coarsegrainedobjects.ProductoCGO;
 
 /**
  *
