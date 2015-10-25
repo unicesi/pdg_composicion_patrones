@@ -14,11 +14,8 @@ import java.util.*;
  * Entity implementation class for Entity: ADependentObject EJB Local Entity que
  * representa a un DependentObject en Composite Entity
  */
-
 @Entity
-@LocalBean
-// @PersistenceContext(name="PDG_Project")
-public abstract class ADependentObject implements Serializable, EntityBean {
+public abstract class ADependentObject  implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -32,6 +29,6 @@ public abstract class ADependentObject implements Serializable, EntityBean {
 	 * 
 	 * @return dependent object que tiene asociados.
 	 */
-	protected abstract Collection<ADependentObject> getDependentObjects();
+	protected abstract Set<List> getDependentObjects();
 
 }
