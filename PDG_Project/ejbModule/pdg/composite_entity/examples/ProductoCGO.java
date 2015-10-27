@@ -206,8 +206,16 @@ public class ProductoCGO extends ACoarseGrainedObject<ProductoCGO> implements Co
 		idProducto = null;
 	}
 
+	@Override
+	public int compareTo(ProductoCGO o) {
+		return (this.idProducto < o.idProducto) ? 1 : (this.idProducto > o.idProducto) ? -1 : 0;
+	}
+
+	// =BUSINESS METHODS=================//
+	// ==================================//
 	/**
 	 * Relaciona al ProductoCGO con una categoria existente.
+	 * 
 	 * @param categoria
 	 * @return true- si relacionó, false si no relacionó.
 	 */
@@ -220,6 +228,7 @@ public class ProductoCGO extends ACoarseGrainedObject<ProductoCGO> implements Co
 
 	/**
 	 * Adiciona una nueva característica al ProductoCGO.
+	 * 
 	 * @param caracteristica
 	 * @return true- si adicionó, false si no adicionó.
 	 */
@@ -229,6 +238,7 @@ public class ProductoCGO extends ACoarseGrainedObject<ProductoCGO> implements Co
 		agrego = true;
 		return agrego;
 	}
+	// =====================================================//
 
 	// ===-GETTERS AND SETTERS==============//
 	// =====================================//
@@ -287,11 +297,6 @@ public class ProductoCGO extends ACoarseGrainedObject<ProductoCGO> implements Co
 
 	public void setProductosList(List<Producto> productosList) {
 		this.productosList = productosList;
-	}
-
-	@Override
-	public int compareTo(ProductoCGO o) {
-		return (this.idProducto < o.idProducto) ? 1 : (this.idProducto > o.idProducto) ? -1 : 0;
 	}
 
 	// =====================================//
