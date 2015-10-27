@@ -2,39 +2,16 @@
 <classpath>
 	<classpathentry kind="src" path="ejbModule"/>
 	<classpathentry kind="src" path="securityModule"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jdk1.7.0_71">
-		<attributes>
-			<attribute name="owner.project.facets" value="java"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="con" path="oracle.eclipse.tools.glassfish.lib.system">
-		<attributes>
-			<attribute name="owner.project.facets" value="jst.ejb"/>
-		</attributes>
-	</classpathentry>
+	<classpathentry kind="con" path="oracle.eclipse.tools.glassfish.lib.system"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
-	<classpathentry kind="lib" path="/Users/CarlosMartelo/.m2/repository/org/eclipse/persistence/javax.persistence/2.1.0-RC2/javax.persistence-2.1.0-RC2.jar">
-		<attributes>
-			<attribute name="maven.pomderived" value="true"/>
-			<attribute name="maven.groupId" value="org.eclipse.persistence"/>
-			<attribute name="maven.artifactId" value="javax.persistence"/>
-			<attribute name="maven.version" value="2.1.0-RC2"/>
-			<attribute name="maven.scope" value="compile"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="lib" path="/Users/CarlosMartelo/.m2/repository/javax/ejb/javax.ejb-api/3.2/javax.ejb-api-3.2.jar">
-		<attributes>
-			<attribute name="maven.pomderived" value="true"/>
-			<attribute name="maven.groupId" value="javax.ejb"/>
-			<attribute name="maven.artifactId" value="javax.ejb-api"/>
-			<attribute name="maven.version" value="3.2"/>
-			<attribute name="maven.scope" value="compile"/>
-		</attributes>
-	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7">
 		<attributes>
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="/Users/carlosmartelo/Downloads/commons-codec-1.10-bin.zip" sourcepath="securityModule"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="/Library/Java/glassfish4/glassfish/modules/javax.ejb-api.jar"/>
+	<classpathentry kind="lib" path="/Library/Java/glassfish4/glassfish/modules/javax.persistence.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
