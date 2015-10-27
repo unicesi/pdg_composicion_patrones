@@ -29,7 +29,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 import pdg.composite_entity.ADependentObject;
-import pdg.patrones.java.compositentity.dependentobjects.CategoriaDO;
 
 /**
  *
@@ -151,6 +150,5 @@ public class Categoria extends ADependentObject implements Serializable {// Camb
 	protected Set<List> getDependentObjects() {
 		return null;
 	}
-
 
 }

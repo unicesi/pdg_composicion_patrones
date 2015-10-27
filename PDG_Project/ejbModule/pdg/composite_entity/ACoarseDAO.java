@@ -14,8 +14,7 @@ import javax.persistence.PersistenceContext;
 @LocalBean
 public abstract class ACoarseDAO<T> {
 
-	@PersistenceContext(name = "PDG_Project")
-	private EntityManager entityManager;
+	
 
 	/**
 	 * Devuelve el CoarseGrainedObject que tiene el id pasado por parámetro.
@@ -69,12 +68,5 @@ public abstract class ACoarseDAO<T> {
 	 */
 	public abstract boolean findACoarseGrainedObject(Integer primaryKey);
 
-	public EntityManager getEntityManager() {
-		return entityManager;
-	}
-
-	public void setEntityManager(EntityManager entityManager) {
-		this.entityManager = entityManager;
-	}
 
 }

@@ -2,6 +2,7 @@ package pdg.composite_entity.examples;
 
 import java.math.BigDecimal;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -15,12 +16,34 @@ import javax.ejb.LocalBean;
 import javax.ejb.ObjectNotFoundException;
 
 import javax.persistence.Entity;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlRootElement;
 
 import pdg.composite_entity.ACoarseGrainedObject;
 
 @Entity
 @LocalBean
-public class ProductoCGO extends ACoarseGrainedObject<ProductoCGO> {
+// @Table
+// @XmlRootElement
+// @NamedQueries({ @NamedQuery(name = "ProductoCGO.findAll", query = "SELECT p
+// FROM Producto p"),
+// @NamedQuery(name = "Producto.findByIdProducto", query = "SELECT p FROM
+// Producto p WHERE p.idProducto = :idProducto"),
+// @NamedQuery(name = "Producto.findByNombre", query = "SELECT p FROM Producto p
+// WHERE p.nombre = :nombre"),
+// @NamedQuery(name = "Producto.findByPrecio", query = "SELECT p FROM Producto p
+// WHERE p.precio = :precio"),
+// @NamedQuery(name = "Producto.findByCantidadActual", query = "SELECT p FROM
+// Producto p WHERE p.cantidadActual = :cantidadActual"),
+// @NamedQuery(name = "Producto.findByCantidadCritica", query = "SELECT p FROM
+// Producto p WHERE p.cantidadCritica = :cantidadCritica"),
+// @NamedQuery(name = "Producto.findByCalificacionPromedio", query = "SELECT p
+// FROM Producto p WHERE p.calificacionPromedio = :calificacionPromedio"),
+// @NamedQuery(name = "Producto.findByDescripcion", query = "SELECT p FROM
+// Producto p WHERE p.descripcion = :descripcion") })
+public class ProductoCGO extends ACoarseGrainedObject<ProductoCGO> implements Comparable<ProductoCGO> {
 
 	private static final long serialVersionUID = 1L;
 
@@ -67,7 +90,9 @@ public class ProductoCGO extends ACoarseGrainedObject<ProductoCGO> {
 	private List<Producto> productosList;
 
 	public ProductoCGO() {
-
+		productoDAO = new ProductoDAO();
+		categoriaList = new ArrayList<Categoria>();
+		caracteristicasList = new ArrayList<Caracteristicas>();
 	}
 
 	@Override
@@ -84,8 +109,12 @@ public class ProductoCGO extends ACoarseGrainedObject<ProductoCGO> {
 
 	@Override
 	public void setCoarseGrainedObjectData(ProductoCGO aCoarseGrainedObject) {
-		// TODO Auto-generated method stub
-
+		idProducto = aCoarseGrainedObject.getIdProducto();
+		nombre = aCoarseGrainedObject.getNombre();
+		precio = aCoarseGrainedObject.getPrecio();
+		cantidadCritica = aCoarseGrainedObject.getCantidadCritica();
+		categoriaList = aCoarseGrainedObject.getCategoriaList();
+		caracteristicasList = aCoarseGrainedObject.getCaracteristicasList();
 	}
 
 	@Override
@@ -116,9 +145,10 @@ public class ProductoCGO extends ACoarseGrainedObject<ProductoCGO> {
 
 	@Override
 	public Set<List> getDependentObjects() {
-		Set<List> dependentObjects = new HashSet<List>();
-		dependentObjects.add(productosList);
-		return dependentObjects;
+		// Set<List> dependentObjects = new HashSet<List>();
+		// dependentObjects.add(productosList);
+		// return dependentObjects;
+		return null;
 	}
 
 	@Override
@@ -153,12 +183,11 @@ public class ProductoCGO extends ACoarseGrainedObject<ProductoCGO> {
 	@Override
 	public void ejbLoad() throws EJBException, RemoteException {
 		setCoarseGrainedObjectData(productoDAO.findById(idProducto));
-		// TODO
 	}
 
 	@Override
 	public void ejbStore() throws EJBException, RemoteException {
-		// TODO Auto-generated method stub
+		// TODO Esto es con el Update del DAO que no está implementado.
 
 	}
 
@@ -175,6 +204,30 @@ public class ProductoCGO extends ACoarseGrainedObject<ProductoCGO> {
 	@Override
 	public void ejbPassivate() throws EJBException, RemoteException {
 		idProducto = null;
+	}
+
+	/**
+	 * Relaciona al ProductoCGO con una categoria existente.
+	 * @param categoria
+	 * @return true- si relacionó, false si no relacionó.
+	 */
+	public boolean addCategoria(Categoria categoria) {
+		boolean agrego = false;
+		categoriaList.add(categoria);
+		agrego = true;
+		return agrego;
+	}
+
+	/**
+	 * Adiciona una nueva característica al ProductoCGO.
+	 * @param caracteristica
+	 * @return true- si adicionó, false si no adicionó.
+	 */
+	public boolean addCaracteristica(Caracteristicas caracteristica) {
+		boolean agrego = false;
+		caracteristicasList.add(caracteristica);
+		agrego = true;
+		return agrego;
 	}
 
 	// ===-GETTERS AND SETTERS==============//
@@ -234,6 +287,11 @@ public class ProductoCGO extends ACoarseGrainedObject<ProductoCGO> {
 
 	public void setProductosList(List<Producto> productosList) {
 		this.productosList = productosList;
+	}
+
+	@Override
+	public int compareTo(ProductoCGO o) {
+		return (this.idProducto < o.idProducto) ? 1 : (this.idProducto > o.idProducto) ? -1 : 0;
 	}
 
 	// =====================================//

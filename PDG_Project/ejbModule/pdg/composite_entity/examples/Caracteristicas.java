@@ -26,7 +26,6 @@ import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import pdg.composite_entity.ADependentObject;
-import pdg.patrones.java.compositentity.dependentobjects.CaracteristicasDO;
 
 /**
  *
