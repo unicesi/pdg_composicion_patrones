@@ -1,4 +1,11 @@
-package seguridad.authentication;
+package seguridad;
+
+import java.util.Collection;
+
+import seguridad.authentication.Authenticator;
+import seguridad.authentication.AuthenticatorException;
+import seguridad.authentication.ProofOfID;
+import seguridad.authorization.Derecho;
 
 public class Subject {
 
@@ -13,13 +20,23 @@ public class Subject {
 	 */
 	private ProofOfID proofOfID;
 
+	/**
+	 * Authenticator que le permite autenticarse.
+	 */
 	private Authenticator authenticator;
+
+	/**
+	 * Derechos que le dan permisos de acceso a los servicios de las entidades
+	 * de negocio que maneja un sistema(Service Locator por ejemplo).
+	 */
+	private Collection<Derecho> derechos;
 
 	public Subject(Integer codSubject, Authenticator authenticator) {
 		this.codSubject = codSubject;
 		this.authenticator = authenticator;
 		proofOfID = null;// Mientras se autentica.
 		// TODO ¿Debería él tener ese ProofOfID?
+		this.derechos = null;
 	}
 
 	/**
@@ -48,6 +65,22 @@ public class Subject {
 
 	public void setProofOfID(ProofOfID proofOfID) {
 		this.proofOfID = proofOfID;
+	}
+
+	public Authenticator getAuthenticator() {
+		return authenticator;
+	}
+
+	public void setAuthenticator(Authenticator authenticator) {
+		this.authenticator = authenticator;
+	}
+
+	public Collection<Derecho> getDerechos() {
+		return derechos;
+	}
+
+	public void setDerechos(Collection<Derecho> derechos) {
+		this.derechos = derechos;
 	}
 
 }

@@ -3,6 +3,8 @@ package seguridad.authentication;
 import java.util.Collection;
 import java.util.HashMap;
 
+import seguridad.Subject;
+
 public class Authenticator {
 
 	/**
