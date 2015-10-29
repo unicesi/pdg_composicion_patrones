@@ -1,14 +1,19 @@
 package seguridadsincrona;
 
-import java.nio.charset.StandardCharsets;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.security.InvalidKeyException;
 import java.security.Key;
 import java.security.NoSuchAlgorithmException;
 import javax.crypto.*;
-import org.apache.commons.codec.binary.Base64;
-import seguridad.Algorithm;
+import seguridad.AKey;
+import seguridad.EncryptedMessage;
+import seguridad.Message;
+import seguridadasincrona.AsymAlgorithm;
 
-public class DESAlgorithm extends Algorithm {
+public class DESAlgorithm extends AsymAlgorithm {
 
 	public DESAlgorithm() {
 		super();
@@ -16,73 +21,68 @@ public class DESAlgorithm extends Algorithm {
 	}
 
 	@Override
-	public String encrypt(Key llave, String mensajeEncriptar) throws Exception {
+	public EncryptedMessage encrypt(AKey key, Message mensajeEncriptar) throws Exception {
+		System.out.println("Entró a encriptar con DES");
 
-		System.out.println("Entra a encriptar con DES, y el mensaje es:" + mensajeEncriptar);
-		String mensajeCifrado = null;
+		Object mensaje = mensajeEncriptar.getMensaje();
+		Key llave = key.getLlave();
+		ByteArrayOutputStream bs = new ByteArrayOutputStream();
+		ObjectOutputStream os = new ObjectOutputStream(bs);
+		os.writeObject(mensaje);
+		os.close();
+		byte[] bytes = bs.toByteArray();
+
 		Cipher cf;
+		byte[] mensajeCifrado = null;
 		try {
-			String nuevoMensajeEncriptar = mensajeEncriptar.trim();
-			System.out.println("nuevo:" + nuevoMensajeEncriptar);
 
 			cf = Cipher.getInstance("DES/ECB/PKCS5Padding");
 			cf.init(Cipher.ENCRYPT_MODE, llave);
-			byte[] theCph = cf.doFinal(nuevoMensajeEncriptar.getBytes("UTF-8"));
-
-			mensajeCifrado = Base64.encodeBase64String(theCph);
-			System.out.println("Mensaje Cifrado:" + mensajeCifrado);
+			mensajeCifrado = cf.doFinal(bytes);
 
 		} catch (NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeyException | IllegalBlockSizeException
 				| BadPaddingException e) {
 			e.printStackTrace();
 		}
 
-		return mensajeCifrado;
+		EncryptedMessage mensajeEncriptado = new EncryptedMessage();
+		mensajeEncriptado.setMensaje(mensajeCifrado);
+		return mensajeEncriptado;
 	}
 
 	@Override
-	public String decrypt(Key llave, String mensajeDescifrar) throws Exception {
+	public Message decrypt(AKey llave, EncryptedMessage mensajeADescifrar) throws Exception {
+		System.out.println("Entró a desencriptar con DES");
+		Object elMensaje = mensajeADescifrar.getMensaje();
 
-		String mensajeOriginal = null;
+		byte[] mensaje = (byte[]) elMensaje;
+		byte[] theCph = null;
+
+		Key laLlave = llave.getLlave();
 
 		Cipher cf;
+
 		try {
-
 			cf = Cipher.getInstance("DES/ECB/PKCS5Padding");
-			cf.init(Cipher.DECRYPT_MODE, llave);
-			byte[] theCph = cf.doFinal(Base64.decodeBase64(mensajeDescifrar));
+			cf.init(Cipher.DECRYPT_MODE, laLlave);
 
-			mensajeOriginal = new String(theCph, StandardCharsets.UTF_8);
+			theCph = cf.doFinal(mensaje);
 
 		} catch (NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeyException | IllegalBlockSizeException
 				| BadPaddingException e) {
 			e.printStackTrace();
 		}
 
-		return mensajeOriginal;
+		ByteArrayInputStream bs = new ByteArrayInputStream(theCph);
+		ObjectInputStream is = new ObjectInputStream(bs);
+		Object objeto = (Object) is.readObject();
+		is.close();
 
-	}
+		Message mensajeDesencriptado = new Message();
+		mensajeDesencriptado.setMensaje(objeto);
 
-	@Override
-	public byte[] decryptByte(Key llave, String mensajeADescifrar) {
-		byte[] mensajeOriginal = null;
+		return mensajeDesencriptado;
 
-		Cipher cf;
-		try {
-
-			cf = Cipher.getInstance("DES/ECB/PKCS5Padding");
-			cf.init(Cipher.DECRYPT_MODE, llave);
-			mensajeOriginal = cf.doFinal(Base64.decodeBase64(mensajeADescifrar));
-
-			//mensajeOriginal = new String(theCph, StandardCharsets.UTF_8);
-
-		} catch (NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeyException | IllegalBlockSizeException
-				| BadPaddingException e) {
-			e.printStackTrace();
-		}
-
-		return mensajeOriginal;
-		
 	}
 
 }
