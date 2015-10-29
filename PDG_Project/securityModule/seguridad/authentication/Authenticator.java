@@ -6,6 +6,11 @@ import java.util.HashMap;
 import seguridad.Subject;
 
 public class Authenticator {
+	
+	/**
+	 * Sujetos que identifica un autenticador
+	 */
+	private HashMap<Integer, Subject> subjects;
 
 	/**
 	 * DAO Authenticator para acceder a la información que autentica.
