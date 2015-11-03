@@ -3,7 +3,31 @@
 	xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
 	<persistence-unit name="PDG_Project" transaction-type="RESOURCE_LOCAL">
-		<class>seguridad.authentication.AuthenticationInformation</class>
 		<class>seguridad.authorization.Derecho</class>
+		<class>pdg.tienda.entities.Categoria</class>
+		<class>pdg.tienda.entities.Ciudad</class>
+		<class>pdg.tienda.entities.Compra</class>
+		<class>pdg.tienda.entities.Departamento</class>
+		<class>pdg.tienda.entities.Detallecompra</class>
+		<class>pdg.tienda.entities.Detallesuministro</class>
+		<class>pdg.tienda.entities.Detalletemporal</class>
+		<class>pdg.tienda.entities.Estado</class>
+		<class>pdg.tienda.entities.Ordensuministro</class>
+		<class>pdg.tienda.entities.Pagina</class>
+		<class>pdg.tienda.entities.Producto</class>
+		<class>pdg.tienda.entities.Promocion</class>
+		<class>pdg.tienda.entities.Proveedor</class>
+		<class>pdg.tienda.entities.Proveedorproducto</class>
+		<class>pdg.tienda.entities.ProveedorproductoPK</class>
+		<class>pdg.tienda.entities.Rol</class>
+		<class>pdg.tienda.entities.Tipodocumento</class>
+		<class>pdg.tienda.entities.Usuario</class>
+		<class>pdg.tienda.entities.Valorproductocuantitativo</class>
+		<properties>
+			<property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>
+			<property name="javax.persistence.jdbc.url" value="jdbc:oracle:thin:@200.3.193.24:1522:ESTUD"/>
+			<property name="javax.persistence.jdbc.user" value="P09551_1_17"/>
+			<property name="javax.persistence.jdbc.password" value="shiftosr"/>
+		</properties>
 	</persistence-unit>
 </persistence>

@@ -18,5 +18,6 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="C:/Users/WMC/Documents/GitHub/pdg_composicion_patrones/ojdbc14.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
