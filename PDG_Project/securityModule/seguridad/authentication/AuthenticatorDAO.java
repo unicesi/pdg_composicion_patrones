@@ -1,6 +1,7 @@
 package seguridad.authentication;
 
 import java.util.Collection;
+import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -23,31 +24,43 @@ public class AuthenticatorDAO {
 	}
 
 	/**
-	 * Devuelve el AuthenticationInformation que tiene el id pasado por
-	 * parámetro.
-	 * 
-	 * @param id-Id
-	 *            del AuthenticationInformation que se desea buscar.
-	 * @return El AuthenticationInformation encontrado.
-	 */
-	public AuthenticationInformation findById(Integer idAuthenticator) {
-		AuthenticationInformation authenticationInformation = (AuthenticationInformation) entityManager
-				.createNamedQuery("AuthenticationInformation.findById")
-				.setParameter("idAuthenticator", String.valueOf(idAuthenticator)).getResultList().iterator().next();
-		return authenticationInformation;
-	}
-
-	/**
 	 * Encuentra un AuthenticationInformation dado el codigo del sujeto
 	 * autenticado
 	 * 
 	 * @param codSubject
 	 * @return AuthenticationInformation
 	 */
-	public AuthenticationInformation findByCodSubject(Integer codSubject) {
-		AuthenticationInformation authenticationInformation = (AuthenticationInformation) entityManager
-				.createNamedQuery("AuthenticationInformation.findByCodSubject")
-				.setParameter("codSubject", String.valueOf(codSubject)).getResultList().iterator().next();
+	public List<Authenticationinformation> findByCodSubject(String codSubject) {
+		List<Authenticationinformation> authenticationInformations = (List) entityManager
+				.createNamedQuery("Authenticationinformation.findByCodSubject").setParameter("codSubject", codSubject)
+				.getResultList();
+		return authenticationInformations;
+	}
+
+	/**
+	 * Encuentra un AuthenticationInformation dado la identificación del sistema
+	 * 
+	 * @param codSubject
+	 * @return AuthenticationInformation
+	 */
+	public List<Authenticationinformation> findByIdSystem(String idSystem) {
+		List<Authenticationinformation> authenticationInformations = (List) entityManager
+				.createNamedQuery("Authenticationinformation.findByIdSystem").setParameter("idSystem", idSystem)
+				.getResultList();
+		return authenticationInformations;
+	}
+
+	/**
+	 * Encuentra un AuthenticationInformation dado la identificación del sistema
+	 * 
+	 * @param codSubject
+	 * @return AuthenticationInformation
+	 */
+	public Authenticationinformation findByIdSystem_CodSubject(String idSystem, String codSubject) {
+		Authenticationinformation authenticationInformation = (Authenticationinformation) entityManager
+				.createNamedQuery("Authenticationinformation.findByIdSystem_CodSubject")
+				.setParameter("idSystem", idSystem).setParameter("codSubject", codSubject).getResultList().iterator()
+				.next();
 		return authenticationInformation;
 	}
 
@@ -56,9 +69,9 @@ public class AuthenticatorDAO {
 	 * 
 	 * @return Toda la lista de AuthenticationInformations
 	 */
-	public Collection<AuthenticationInformation> findAll() {
-		Collection<AuthenticationInformation> authenticationInformations = entityManager
-				.createNamedQuery("AuthenticationInformation.findAll").getResultList();
+	public Collection<Authenticationinformation> findAll() {
+		Collection<Authenticationinformation> authenticationInformations = entityManager
+				.createNamedQuery("Authenticationinformation.findAll").getResultList();
 		return authenticationInformations;
 	}
 
@@ -68,8 +81,11 @@ public class AuthenticatorDAO {
 	 * @param authenticationInformation-AuthenticationInformation
 	 *            a guardar.
 	 */
-	public void create(AuthenticationInformation authenticationInformation) {
-		entityManager.persist(authenticationInformation);
+	public void create(Authenticationinformation authenticationInformation) {
+		entityManager.createQuery(
+				"INSERT INTO authenticationinformation VALUES(" + authenticationInformation.getId().getIdSystem() + ","
+						+ authenticationInformation.getId().getCodSubject() + ","
+						+ authenticationInformation.getPassword() + "," + authenticationInformation.getAutenticado());
 	}
 
 	/**
@@ -78,8 +94,8 @@ public class AuthenticatorDAO {
 	 * @param authenticationInformationID-identifiación
 	 *            del AuthenticationInformationt a borrar.
 	 */
-	public void delete(Integer authenticationInformationID) {
-		entityManager.remove(findById(authenticationInformationID));
+	public void delete(String codSubject) {
+		entityManager.remove(findByCodSubject(codSubject));
 	}
 
 	/**
@@ -89,8 +105,18 @@ public class AuthenticatorDAO {
 	 *            a actualizar.
 	 * @return El coarse-grained object actualizado.
 	 */
-	public AuthenticationInformation update(AuthenticationInformation authenticationInformation) {
+	public Authenticationinformation update(Authenticationinformation authenticationInformation) {
 		return entityManager.merge(authenticationInformation);
+	}
+
+	/**
+	 * ¿El sujeto con código codSubject está autenticado en el sistema?
+	 * 
+	 * @return true-Si lo está, false- si no lo está.
+	 */
+	public boolean isAutenticado(String idSystem, String codSubject) {
+		String autenticado = findByIdSystem_CodSubject(idSystem, codSubject).getAutenticado();
+		return autenticado.equalsIgnoreCase("1");
 	}
 
 }

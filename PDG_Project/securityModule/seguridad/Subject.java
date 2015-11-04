@@ -1,9 +1,8 @@
 package seguridad;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
-import seguridad.authentication.Authenticator;
-import seguridad.authentication.AuthenticatorException;
 import seguridad.authentication.ProofOfID;
 import seguridad.authorization.Derecho;
 
@@ -12,18 +11,18 @@ public class Subject {
 	/**
 	 * Código que identifica a un sujeto dentro del sistema.
 	 */
-	private Integer codSubject;
+	private String codSubject;
 
 	/**
-	 * Credencial autenticadora dentro del sistema de autenticaciones si la
+	 * Password del sujeto dentro del sistema.
+	 */
+	private String password;
+
+	/**
+	 * Credenciales autenticadoras dentro del sistema de autenticaciones si las
 	 * tiene.
 	 */
-	private ProofOfID proofOfID;
-
-	/**
-	 * Authenticator que le permite autenticarse.
-	 */
-	private Authenticator authenticator;
+	private Collection<ProofOfID> proofsOfID;
 
 	/**
 	 * Derechos que le dan permisos de acceso a los servicios de las entidades
@@ -31,48 +30,27 @@ public class Subject {
 	 */
 	private Collection<Derecho> derechos;
 
-	public Subject(Integer codSubject, Authenticator authenticator) {
+	public Subject(String codSubject, String password) {
 		this.codSubject = codSubject;
-		this.authenticator = authenticator;
-		proofOfID = null;// Mientras se autentica.
-		// TODO ¿Debería él tener ese ProofOfID?
-		this.derechos = null;
+		this.password = password;
+		proofsOfID = new ArrayList<ProofOfID>();// Mientras se autentica.
+		this.derechos = new ArrayList<Derecho>();
 	}
 
-	/**
-	 * Solicita al autenticador pasado por el sistema que le otorgue un
-	 * ProofOfID, dado su código.
-	 */
-	public void requestAuthent() {
-		try {
-			proofOfID = authenticator.login(codSubject);
-		} catch (AuthenticatorException e) {
-			proofOfID = null;
-		}
-	}
-
-	public Integer getCodSubject() {
+	public String getCodSubject() {
 		return codSubject;
 	}
 
-	public void setCodSubject(Integer codSubject) {
+	public void setCodSubject(String codSubject) {
 		this.codSubject = codSubject;
 	}
 
-	public ProofOfID getProofOfID() {
-		return proofOfID;
+	public Collection<ProofOfID> getProofsOfID() {
+		return proofsOfID;
 	}
 
-	public void setProofOfID(ProofOfID proofOfID) {
-		this.proofOfID = proofOfID;
-	}
-
-	public Authenticator getAuthenticator() {
-		return authenticator;
-	}
-
-	public void setAuthenticator(Authenticator authenticator) {
-		this.authenticator = authenticator;
+	public void setProofsOfID(Collection<ProofOfID> proofsOfID) {
+		this.proofsOfID = proofsOfID;
 	}
 
 	public Collection<Derecho> getDerechos() {
@@ -81,6 +59,34 @@ public class Subject {
 
 	public void setDerechos(Collection<Derecho> derechos) {
 		this.derechos = derechos;
+	}
+
+	/**
+	 * Agrega un proofOfId a éste subject.
+	 * 
+	 * @param proofOfID-ProofOfId
+	 *            entregado por un sistema.
+	 * @return true- si lo agregó, false- si no lo agregó.
+	 */
+	public boolean agregarProofOfId(ProofOfID proofOfID) {
+		if (proofsOfID.contains(proofOfID)) {
+			return false;
+		} else {
+			proofsOfID.add(proofOfID);
+			return true;
+		}
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public String toString() {
+		return "Sujeto: " + codSubject;
 	}
 
 }

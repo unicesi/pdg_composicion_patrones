@@ -1,16 +1,19 @@
 package seguridad.authentication;
 
+import java.util.List;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 
 import seguridad.Subject;
 
 public class Authenticator {
-	
+
 	/**
 	 * Sujetos que identifica un autenticador
 	 */
-	private HashMap<Integer, Subject> subjects;
+	private HashMap<String, Subject> subjects;
 
 	/**
 	 * DAO Authenticator para acceder a la información que autentica.
@@ -21,17 +24,25 @@ public class Authenticator {
 	 * Collection que tiene la información de todos los sujetos autenticados al
 	 * sistema que utilice Authenticator.
 	 */
-	private Collection<AuthenticationInformation> authenticationInformations;
+	private Collection<Authenticationinformation> authenticationInformations;
 
 	/**
 	 * Información de todas las credenciales de los sujetos dentro del sistema.
 	 */
-	private HashMap<Integer, ProofOfID> proofsOfID;
+	private HashMap<String, ProofOfID> proofsOfID;
 
-	public Authenticator() {
+	/**
+	 * Identificación del sistema que lo utiliza.
+	 */
+	private String idSystem;
+
+	public Authenticator(String idSystem) {
+		this.idSystem = idSystem;
 		authenticatorDAO = new AuthenticatorDAO();
-		authenticationInformations = authenticatorDAO.findAll();
-		proofsOfID = new HashMap<Integer, ProofOfID>();
+		// authenticationInformations =
+		// authenticatorDAO.findByIdSystem(idSystem);
+		authenticationInformations = new ArrayList<Authenticationinformation>();
+		proofsOfID = new HashMap<String, ProofOfID>();
 	}
 
 	public AuthenticatorDAO getAuthenticatorDAO() {
@@ -42,23 +53,43 @@ public class Authenticator {
 		this.authenticatorDAO = authenticatorDAO;
 	}
 
-	public Collection<AuthenticationInformation> getAuthenticationInformations() {
+	public Collection<Authenticationinformation> getAuthenticationInformations() {
 		return authenticationInformations;
 	}
 
-	public void setAuthenticationInformations(Collection<AuthenticationInformation> authenticationInformations) {
+	public void setAuthenticationInformations(Collection<Authenticationinformation> authenticationInformations) {
 		this.authenticationInformations = authenticationInformations;
+	}
+
+	public HashMap<String, ProofOfID> getProofsOfID() {
+		return proofsOfID;
+	}
+
+	public void setProofsOfID(HashMap<String, ProofOfID> proofsOfID) {
+		this.proofsOfID = proofsOfID;
+	}
+
+	public HashMap<String, Subject> getSubjects() {
+		return subjects;
+	}
+
+	public void setSubjects(HashMap<String, Subject> subjects) {
+		this.subjects = subjects;
+	}
+
+	public String getIdSystem() {
+		return idSystem;
+	}
+
+	public void setIdSystem(String idSystem) {
+		this.idSystem = idSystem;
 	}
 
 	// ===MÉTODOS LOGICA DE NEGOCIO==//
 	// ==============================//
 
-	public HashMap<Integer, ProofOfID> getProofsOfID() {
-		return proofsOfID;
-	}
-
-	public void setProofsOfID(HashMap<Integer, ProofOfID> proofsOfID) {
-		this.proofsOfID = proofsOfID;
+	private boolean isAuthenticado(Authenticationinformation authenticationinformation) {
+		return authenticationinformation.getAutenticado().equalsIgnoreCase("1");
 	}
 
 	/**
@@ -70,15 +101,15 @@ public class Authenticator {
 	 * @throws AuthenticatorException-
 	 *             si no está autenticado en el sistema.
 	 */
-	public ProofOfID login(Integer codSubject) throws AuthenticatorException {
-		ProofOfID proofOfID = new ProofOfID(codSubject, false);
-		AuthenticationInformation authenthicationInformation = authenticatorDAO.findByCodSubject(codSubject);
-		if (authenthicationInformation == null) {
+	public ProofOfID login(String codSubject, String password) throws AuthenticatorException {
+		ProofOfID proofOfID = new ProofOfID(idSystem, codSubject, false);
+		Authenticationinformation authenticationInformation = buscarPorCodSubject_Password(codSubject, password);
+		//System.out.println("Buscado:" + authenticationInformation);
+		if (authenticationInformation == null) {
 			proofsOfID.put(codSubject, proofOfID);
 			throw new AuthenticatorException("No se encuentra autenticado en el sistema.");
 		} else {
-			if (authenticationInformations.contains(authenthicationInformation)
-					&& authenthicationInformation.isAutenticado()) {
+			if (isAuthenticado(authenticationInformation)) {
 				proofOfID.setPermitido(true);
 				proofsOfID.put(codSubject, proofOfID);
 			}
@@ -87,11 +118,50 @@ public class Authenticator {
 	}
 
 	/**
+	 * Busca la información de autenticación del sujeto con ese código dentro
+	 * del sistema que utiliza éste autenticador.
+	 * 
+	 * @param codSubject
+	 * @return Authenticationinformation.
+	 */
+	public Authenticationinformation buscarPorCodSubject_Password(String codSubject, String password) {
+		Iterator<Authenticationinformation> iter = getAuthenticationInformations().iterator();
+		Authenticationinformation authenticationinformationRetorno = null;
+		Authenticationinformation authenticationinformationActual = null;
+		while (iter.hasNext()) {
+			// System.out.println("Entra al while");
+			authenticationinformationActual = iter.next();
+			if (String.valueOf(authenticationinformationActual.getId().getCodSubject()).equals(codSubject)
+					&& authenticationinformationActual.getPassword().equals(password)) {
+				// System.out.println("Entra el if");
+				authenticationinformationRetorno = authenticationinformationActual;
+				// System.out.println("Retorno: " +
+				// authenticationinformationRetorno.toString());
+				// System.out.println("Retorno: " +
+				// authenticationinformationRetorno.toString());
+				// System.out.println("Retorno: " +
+				// authenticationinformationRetorno.toString());
+				return authenticationinformationRetorno;
+			} else {
+				// System.out.println("Entró al else");
+
+				continue;
+				// System.out.println("Actual: " +
+				// authenticationinformationActual.toString());
+
+			}
+
+		}
+		
+		return authenticationinformationRetorno;
+	}
+
+	/**
 	 * Inhabilita a un ProofOfID de un sujeto dentro del sistema.
 	 * 
 	 * @param codSubject
 	 */
-	public void inhabilitarSubject(Integer codSubject) throws AuthenticatorException {
+	public void inhabilitarSubject(String codSubject) throws AuthenticatorException {
 		if (proofsOfID.containsKey(codSubject)) {
 			proofsOfID.get(codSubject).setPermitido(false);
 		} else {
@@ -104,7 +174,7 @@ public class Authenticator {
 	 * 
 	 * @param codSubject
 	 */
-	public void habilitarSubject(Integer codSubject) throws AuthenticatorException {
+	public void habilitarSubject(String codSubject) throws AuthenticatorException {
 		if (proofsOfID.containsKey(codSubject)) {
 			proofsOfID.get(codSubject).setPermitido(true);
 		} else {
@@ -113,13 +183,41 @@ public class Authenticator {
 	}
 
 	/**
-	 * Verifica si un sujeto está autenticado o permitido.
+	 * Verifica si un sujeto está autenticado y permitido.
+	 * 
 	 * @param subject
-	 * @return
+	 * @return true- si está autenticado y permitido, false- si no lo está.
 	 */
 	public boolean estaAutenticadoPermitido(Subject subject) {
 		return (proofsOfID.containsKey(subject.getCodSubject())
 				&& proofsOfID.get(subject.getCodSubject()).isPermitido()) ? true : false;
+	}
+
+	/**
+	 * Autentica a un sujeto en el sistema.
+	 * 
+	 * @param subject-Sujeto
+	 *            a autenticar.
+	 * @return true- si lo autentica, false- si no lo autentica.
+	 */
+	public boolean autenticar(Subject subject) {
+		AuthenticationinformationPK authenticationinformationPK = new AuthenticationinformationPK(
+				Long.parseLong(idSystem), Long.parseLong(subject.getCodSubject()));
+		Authenticationinformation authenticationinformation = new Authenticationinformation(authenticationinformationPK,
+				subject.getPassword(), "1");
+		try {
+			authenticationInformations.add(authenticationinformation);
+			System.out.println("FALTA AGREGARLO A LA BASE DE DATOS HABILITANDO LA PORCIÓN DE CÓDIGO SIGUIENTE.");
+			// TODO authenticatorDAO.create(authenticationinformation);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+		return true;
+	}
+
+	public String toString() {
+		return "Sistema:" + idSystem;
 	}
 
 }
