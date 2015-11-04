@@ -16,7 +16,6 @@ public class Promocion implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.TABLE)
 	private long idpromocion;
 
 	@Temporal(TemporalType.DATE)
@@ -35,11 +34,6 @@ public class Promocion implements Serializable {
 	@OneToMany(mappedBy="promocion")
 	private List<Detallecompra> detallecompras;
 
-	//bi-directional many-to-one association to Estado
-	@ManyToOne
-	@JoinColumn(name="IDESTADO")
-	private Estado estado;
-
 	//bi-directional many-to-many association to Producto
 	@ManyToMany
 	@JoinTable(
@@ -52,6 +46,11 @@ public class Promocion implements Serializable {
 			}
 		)
 	private List<Producto> productos;
+
+	//bi-directional many-to-one association to Estado
+	@ManyToOne
+	@JoinColumn(name="IDESTADO")
+	private Estado estado;
 
 	public Promocion() {
 	}
@@ -118,20 +117,20 @@ public class Promocion implements Serializable {
 		return detallecompra;
 	}
 
-	public Estado getEstado() {
-		return this.estado;
-	}
-
-	public void setEstado(Estado estado) {
-		this.estado = estado;
-	}
-
 	public List<Producto> getProductos() {
 		return this.productos;
 	}
 
 	public void setProductos(List<Producto> productos) {
 		this.productos = productos;
+	}
+
+	public Estado getEstado() {
+		return this.estado;
+	}
+
+	public void setEstado(Estado estado) {
+		this.estado = estado;
 	}
 
 }

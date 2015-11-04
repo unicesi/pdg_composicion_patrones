@@ -16,7 +16,6 @@ public class Ordensuministro implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.TABLE)
 	private long idordensuministro;
 
 	@Temporal(TemporalType.DATE)

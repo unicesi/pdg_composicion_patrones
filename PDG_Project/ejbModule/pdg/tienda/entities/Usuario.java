@@ -16,7 +16,6 @@ public class Usuario implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.TABLE)
 	private long idusuario;
 
 	private String apellido;
@@ -60,6 +59,11 @@ public class Usuario implements Serializable {
 	@JoinColumn(name="IDESTADO")
 	private Estado estado;
 
+	//bi-directional many-to-one association to Tipodocumento
+	@ManyToOne
+	@JoinColumn(name="IDTIPODOCUMENTO")
+	private Tipodocumento tipodocumento;
+
 	//bi-directional many-to-many association to Rol
 	@ManyToMany
 	@JoinTable(
@@ -72,11 +76,6 @@ public class Usuario implements Serializable {
 			}
 		)
 	private List<Rol> rols;
-
-	//bi-directional many-to-one association to Tipodocumento
-	@ManyToOne
-	@JoinColumn(name="IDTIPODOCUMENTO")
-	private Tipodocumento tipodocumento;
 
 	public Usuario() {
 	}
@@ -237,20 +236,20 @@ public class Usuario implements Serializable {
 		this.estado = estado;
 	}
 
-	public List<Rol> getRols() {
-		return this.rols;
-	}
-
-	public void setRols(List<Rol> rols) {
-		this.rols = rols;
-	}
-
 	public Tipodocumento getTipodocumento() {
 		return this.tipodocumento;
 	}
 
 	public void setTipodocumento(Tipodocumento tipodocumento) {
 		this.tipodocumento = tipodocumento;
+	}
+
+	public List<Rol> getRols() {
+		return this.rols;
+	}
+
+	public void setRols(List<Rol> rols) {
+		this.rols = rols;
 	}
 
 }

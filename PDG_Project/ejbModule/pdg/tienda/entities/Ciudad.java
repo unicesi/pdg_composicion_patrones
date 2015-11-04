@@ -15,7 +15,6 @@ public class Ciudad implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.TABLE)
 	private long idciudad;
 
 	@Column(name="CODIGO_DANE")

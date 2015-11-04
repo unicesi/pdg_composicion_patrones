@@ -2,11 +2,6 @@ package pdg.composite_entity;
 
 import java.io.Serializable;
 
-import javax.ejb.EntityBean;
-import javax.ejb.EntityContext;
-import javax.ejb.Local;
-import javax.ejb.LocalBean;
-import javax.persistence.*;
 
 import java.util.*;
 

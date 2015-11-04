@@ -4,8 +4,7 @@ import java.io.Serializable;
 
 import javax.ejb.EJB;
 import javax.ejb.EntityBean;
-import javax.ejb.LocalBean;
-import javax.persistence.*;
+
 
 /**
  * Entity implementation class for Entity: ACorseGrainedObject

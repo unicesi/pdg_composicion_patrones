@@ -16,7 +16,6 @@ public class Compra implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.TABLE)
 	private long idcompra;
 
 	@Temporal(TemporalType.DATE)

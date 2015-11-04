@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import pdg.composite_entity.ACoarseDAO;
+import pdg.tienda.entities.Categoria;
 
 @Entity
 public class ProductoDAO extends ACoarseDAO<ProductoCGO> {
@@ -61,16 +62,7 @@ public class ProductoDAO extends ACoarseDAO<ProductoCGO> {
 						+ "," + cantidadCritica + "," + idCategoria + ");");
 			}
 			while (caracteristicasIter.hasNext()) {
-				entityManager.persist(caracteristicasIter.next());// TODO-¿Cómo
-																	// aseguro
-																	// yo
-																	// incluir
-																	// las
-																	// características
-																	// y
-																	// categorías
-																	// en ese
-																	// Coarse-grained-object?
+				entityManager.persist(caracteristicasIter.next());
 			}
 		} else {
 			System.out.println("El coarse grained object pasado por parámetro es nulo.");
