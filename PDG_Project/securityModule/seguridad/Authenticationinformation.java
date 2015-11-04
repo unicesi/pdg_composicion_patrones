@@ -1,4 +1,4 @@
-package seguridad.authentication;
+package seguridad;
 
 import java.io.Serializable;
 import javax.persistence.*;
@@ -9,13 +9,15 @@ import javax.persistence.*;
  */
 @Entity
 @NamedQueries({
-		@NamedQuery(name = "Authenticationinformation.findAll", query = "SELECT a FROM Authenticationinformation a") })
+	@NamedQuery(name = "Authenticationinformation.findByCodSubject", query = "SELECT a FROM Authenticationinformation a WHERE a.codSubject = :codSubject") })
+
 @NamedQuery(name = "Authenticationinformation.findAll", query = "SELECT a FROM Authenticationinformation a")
 public class Authenticationinformation implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	@EmbeddedId
-	private AuthenticationinformationPK id;
+	@Id
+	@Column(name = "COD_SUBJECT")
+	private long codSubject;
 
 	private String autenticado;
 
@@ -24,18 +26,18 @@ public class Authenticationinformation implements Serializable {
 	public Authenticationinformation() {
 	}
 
-	public Authenticationinformation(AuthenticationinformationPK id, String password, String autenticado) {
-		this.id=id;
-		this.password=password;
-		this.autenticado=autenticado;
-	}
-	
-	public AuthenticationinformationPK getId() {
-		return this.id;
+	public Authenticationinformation(long codSubject, String password, String autenticado) {
+		this.codSubject = codSubject;
+		this.password = password;
+		this.autenticado = autenticado;
 	}
 
-	public void setId(AuthenticationinformationPK id) {
-		this.id = id;
+	public long getCodSubject() {
+		return this.codSubject;
+	}
+
+	public void setCodSubject(long codSubject) {
+		this.codSubject = codSubject;
 	}
 
 	public String getAutenticado() {

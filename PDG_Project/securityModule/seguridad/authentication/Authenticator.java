@@ -1,13 +1,17 @@
 package seguridad.authentication;
 
-import java.util.List;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import javax.ejb.EJB;
+import javax.ejb.Stateless;
+
+import seguridad.Authenticationinformation;
 import seguridad.Subject;
 
+@Stateless
 public class Authenticator {
 
 	/**
@@ -18,6 +22,7 @@ public class Authenticator {
 	/**
 	 * DAO Authenticator para acceder a la información que autentica.
 	 */
+	@EJB
 	private AuthenticatorDAO authenticatorDAO;
 
 	/**
@@ -31,13 +36,8 @@ public class Authenticator {
 	 */
 	private HashMap<String, ProofOfID> proofsOfID;
 
-	/**
-	 * Identificación del sistema que lo utiliza.
-	 */
-	private String idSystem;
+	public Authenticator() {
 
-	public Authenticator(String idSystem) {
-		this.idSystem = idSystem;
 		authenticatorDAO = new AuthenticatorDAO();
 		// authenticationInformations =
 		// authenticatorDAO.findByIdSystem(idSystem);
@@ -77,14 +77,6 @@ public class Authenticator {
 		this.subjects = subjects;
 	}
 
-	public String getIdSystem() {
-		return idSystem;
-	}
-
-	public void setIdSystem(String idSystem) {
-		this.idSystem = idSystem;
-	}
-
 	// ===MÉTODOS LOGICA DE NEGOCIO==//
 	// ==============================//
 
@@ -102,11 +94,11 @@ public class Authenticator {
 	 *             si no está autenticado en el sistema.
 	 */
 	public ProofOfID login(String codSubject, String password) throws AuthenticatorException {
-		ProofOfID proofOfID = new ProofOfID(idSystem, codSubject, false);
+		ProofOfID proofOfID = new ProofOfID(codSubject, false);
 		Authenticationinformation authenticationInformation = buscarPorCodSubject_Password(codSubject, password);
-		//System.out.println("Buscado:" + authenticationInformation);
+		// System.out.println("Buscado:" + authenticationInformation);
 		if (authenticationInformation == null) {
-			proofsOfID.put(codSubject, proofOfID);
+			// TODO proofsOfID.put(codSubject, proofOfID);
 			throw new AuthenticatorException("No se encuentra autenticado en el sistema.");
 		} else {
 			if (isAuthenticado(authenticationInformation)) {
@@ -131,7 +123,7 @@ public class Authenticator {
 		while (iter.hasNext()) {
 			// System.out.println("Entra al while");
 			authenticationinformationActual = iter.next();
-			if (String.valueOf(authenticationinformationActual.getId().getCodSubject()).equals(codSubject)
+			if (String.valueOf(authenticationinformationActual.getCodSubject()).equals(codSubject)
 					&& authenticationinformationActual.getPassword().equals(password)) {
 				// System.out.println("Entra el if");
 				authenticationinformationRetorno = authenticationinformationActual;
@@ -152,7 +144,7 @@ public class Authenticator {
 			}
 
 		}
-		
+
 		return authenticationinformationRetorno;
 	}
 
@@ -201,10 +193,9 @@ public class Authenticator {
 	 * @return true- si lo autentica, false- si no lo autentica.
 	 */
 	public boolean autenticar(Subject subject) {
-		AuthenticationinformationPK authenticationinformationPK = new AuthenticationinformationPK(
-				Long.parseLong(idSystem), Long.parseLong(subject.getCodSubject()));
-		Authenticationinformation authenticationinformation = new Authenticationinformation(authenticationinformationPK,
-				subject.getPassword(), "1");
+
+		Authenticationinformation authenticationinformation = new Authenticationinformation(
+				Long.parseLong(subject.getCodSubject()), subject.getPassword(), "1");
 		try {
 			authenticationInformations.add(authenticationinformation);
 			System.out.println("FALTA AGREGARLO A LA BASE DE DATOS HABILITANDO LA PORCIÓN DE CÓDIGO SIGUIENTE.");
@@ -216,8 +207,6 @@ public class Authenticator {
 		return true;
 	}
 
-	public String toString() {
-		return "Sistema:" + idSystem;
-	}
+	
 
 }

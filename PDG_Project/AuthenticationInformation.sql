@@ -1,20 +1,16 @@
-CREATE TABLE AuthenticationInformation
+CREATE TABLE Authenticationinformation
   (
-    id_system   INTEGER NOT NULL ,
     cod_subject INTEGER NOT NULL ,
-    password    VARCHAR2 (25 CHAR) NOT NULL ,
+    password    VARCHAR2 (300 BYTE) NOT NULL ,
     autenticado CHAR (1) NOT NULL
   ) ;
-COMMENT ON COLUMN AuthenticationInformation.id_system
+COMMENT ON COLUMN Authenticationinformation.cod_subject
 IS
-  'Identificación del sistema.' ;
-  COMMENT ON COLUMN AuthenticationInformation.cod_subject
+  'Código del sujeto autenticado.' ;
+  COMMENT ON COLUMN Authenticationinformation.password
 IS
-  'Código del subject dentro del sistema.' ;
-  COMMENT ON COLUMN AuthenticationInformation.password
+  'Password encriptado del sujeto autenticado.' ;
+  COMMENT ON COLUMN Authenticationinformation.autenticado
 IS
-  'Password del subject para en ese sistema.' ;
-  COMMENT ON COLUMN AuthenticationInformation.autenticado
-IS
-  'Indica si el sujeto está autenticado en el sistema.' ;
-  ALTER TABLE AuthenticationInformation ADD CONSTRAINT AuthenticationInformation_PK PRIMARY KEY ( id_system, cod_subject ) ;
+  'Indica si este sujeto está autenticado en el sistema o no. 0-No lo está. 1- Si lo está.' ;
+  ALTER TABLE Authenticationinformation ADD CONSTRAINT Authenticationinformation_PK PRIMARY KEY ( cod_subject ) ;

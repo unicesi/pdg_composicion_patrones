@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import seguridad.authentication.ProofOfID;
-import seguridad.authorization.Derecho;
 
 public class Subject {
 
@@ -75,6 +74,21 @@ public class Subject {
 			proofsOfID.add(proofOfID);
 			return true;
 		}
+	}
+
+	/**
+	 * Asigna un derecho al sujeto.
+	 * @param derecho
+	 * @return true-si lo asignó. false- si no lo asignó.
+	 */
+	public boolean asignarDerecho(Derecho derecho) {
+		if (derechos.contains(derecho)) {
+			return false;
+		} else {
+			derechos.add(derecho);
+			return true;
+		}
+
 	}
 
 	public String getPassword() {

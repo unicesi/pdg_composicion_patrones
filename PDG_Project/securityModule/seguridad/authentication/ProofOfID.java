@@ -11,14 +11,9 @@ public class ProofOfID {
 	 * Código del sujeto propietario de este ProofOfID
 	 */
 	private String codSubject;
-	
-	/**
-	 * Identificación del sistema que le otorga this.
-	 */
-	private String idSystem;
 
-	public ProofOfID(String idSystem, String codSubject, boolean permitido) {
-		this.idSystem=idSystem;
+	public ProofOfID(String codSubject, boolean permitido) {
+
 		this.codSubject = codSubject;
 		this.permitido = permitido;
 
@@ -40,16 +35,8 @@ public class ProofOfID {
 		this.codSubject = codSubject;
 	}
 
-	public String getIdSystem() {
-		return idSystem;
-	}
-
-	public void setIdSystem(String idSystem) {
-		this.idSystem = idSystem;
-	} 
-	
-	public String toString(){
-		return "Sistema: "+ idSystem+ ", Sujeto: "+codSubject+", Permitido:"+permitido;
+	public String toString() {
+		return  "Sujeto: " + codSubject + ", "+ "Permitido:" + permitido;
 	}
 
 }

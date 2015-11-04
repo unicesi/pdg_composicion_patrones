@@ -1,5 +1,6 @@
 package seguridad.authentication;
 
+import seguridad.Authenticationinformation;
 import seguridad.Subject;
 
 public class Tester {
@@ -10,10 +11,8 @@ public class Tester {
 		Subject subject = new Subject("12345", "passwordSubject");
 		Subject subject2 = new Subject("58901", "passwordSubject2");
 		System.out.println("Se creó el sujeto:" + subject.toString());
-		String idSystem = "56789";
-		System.out.println("El id de este sistema es:" + idSystem);
-		Authenticator authenticator = new Authenticator(idSystem);
-		System.out.println("Se creó el autenticador para este sistema: " + authenticator.toString());
+		Authenticator authenticator = new Authenticator();
+
 		System.out.println("Se procederá a autenticar al sujeto...");
 		System.out.println("Autenticó? " + authenticator.autenticar(subject));
 		System.out.println("Autenticó2? " + authenticator.autenticar(subject2));
@@ -63,6 +62,7 @@ public class Tester {
 		System.out.println("Tiempo de ejecución: " + ((time2 - time1) / 1) + " milisegundos.");
 
 		System.out.println("=====================================================================");
+
 	}
 
 }

@@ -22,8 +22,11 @@
 		<class>pdg.tienda.entities.Tipodocumento</class>
 		<class>pdg.tienda.entities.Usuario</class>
 		<class>pdg.tienda.entities.Valorproductocuantitativo</class>
-		<class>seguridad.authentication.Authenticationinformation</class>
-		<class>seguridad.authentication.AuthenticationinformationPK</class>	
+		<class>seguridad.Derecho</class>
+		<class>seguridad.DerechoPK</class>
+		<class>seguridad.Authenticationinformation</class>
+		<class>seguridad.Authorizationinformation</class>
+		<class>seguridad.AuthorizationinformationPK</class>	
 		<properties>
 			<property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>
 			<property name="javax.persistence.jdbc.url" value="jdbc:oracle:thin:@200.3.193.24:1522:ESTUD"/>

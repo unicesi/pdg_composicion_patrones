@@ -3,9 +3,13 @@ package seguridad.authentication;
 import java.util.Collection;
 import java.util.List;
 
+import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import seguridad.Authenticationinformation;
+
+@Stateless
 public class AuthenticatorDAO {
 
 	@PersistenceContext(name = "PDG_Project")
@@ -83,8 +87,7 @@ public class AuthenticatorDAO {
 	 */
 	public void create(Authenticationinformation authenticationInformation) {
 		entityManager.createQuery(
-				"INSERT INTO authenticationinformation VALUES(" + authenticationInformation.getId().getIdSystem() + ","
-						+ authenticationInformation.getId().getCodSubject() + ","
+				"INSERT INTO authenticationinformation VALUES(" + authenticationInformation.getCodSubject() + ","
 						+ authenticationInformation.getPassword() + "," + authenticationInformation.getAutenticado());
 	}
 
