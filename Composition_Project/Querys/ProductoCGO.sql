@@ -1,0 +1,1 @@
+CREATE TABLE ProductoCGO(id_producto int NOT NULL, nombre varchar2(30) NOT NULL, precio decimal NOT NULL, cantidad_critica int NOT NULL, id_categoria int,   PRIMARY KEY(id_producto));

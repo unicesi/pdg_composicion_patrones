@@ -14,7 +14,7 @@ import pdg.composite_entity.*;
  */
 @Entity
 @LocalBean
-public abstract class	 ACorseGrainedObject implements Serializable, ICoarseGrainedObject, EntityBean {
+public abstract class ACorseGrainedObject implements Serializable, ICoarseGrainedObject, EntityBean {
 
 	
 	

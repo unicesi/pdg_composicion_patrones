@@ -9,9 +9,9 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="/Users/carlosmartelo/Downloads/commons-codec-1.10-bin.zip" sourcepath="securityModule"/>
+	<classpathentry kind="lib" path="commons-codec-1.10-bin.zip"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="/Library/Java/glassfish4/glassfish/modules/javax.ejb-api.jar"/>
-	<classpathentry kind="lib" path="/Library/Java/glassfish4/glassfish/modules/javax.persistence.jar"/>
+	<classpathentry kind="lib" path="D:/Workspace Xtext/glassfish4/glassfish/modules/javax.ejb-api.jar"/>
+	<classpathentry kind="lib" path="D:/Workspace Xtext/glassfish4/glassfish/modules/javax.persistence.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
